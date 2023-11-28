@@ -38,7 +38,7 @@ class bigNumber
 		friend std::ostream& operator <<( std::ostream&, const bigNumber& );
 		friend std::istream& operator >>( std::istream&, bigNumber& );
 		
-		// adding post and pre increment/decrement
+		// post and pre increment/decrement
 		bigNumber& operator ++();
 		bigNumber operator ++( int );
 		bigNumber& operator --();
@@ -57,11 +57,7 @@ class bigNumber
 		friend bigNumber operator *( const bigNumber&, int );
 		friend bigNumber operator /( const bigNumber&, const bigNumber& );
 		friend bigNumber operator ^( const bigNumber&, const bigNumber& );
-		
-		// bitwise shift
-		//bigNumber operator <<( int );
-		//bigNumber operator >>( int );
-		
+
 		// factorial
 		bigNumber factorial();
 	
@@ -86,12 +82,16 @@ class bigNumber
 					break;
 			numOfDigits-= i;
 			tempArr = new uint8_t[numOfDigits];
-			for(int j = 1; j <= numOfDigits; ++j)
+			
+			for(size_t j = 1; j <= numOfDigits; ++j)
 				tempArr[numOfDigits - j] = digits[numOfDigits + i - j];
+			
 			delete [] digits;
 			digits = new uint8_t[numOfDigits];
-			for(int j = 0; j < numOfDigits; ++j)
+			
+			for(size_t j = 0; j < numOfDigits; ++j)
 				digits[j] = tempArr[j];
+			
 			delete [] tempArr;
 		}
 
