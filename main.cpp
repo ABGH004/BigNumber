@@ -13,10 +13,10 @@ int main()
 	std::cin >> bN2;
 	//int num;
 	//std::cin >> num;
-	std::cin >> bN4;
+//	std::cin >> bN4;
 	//bN4 = ++bN2;
-	std::cout << (bN2*bN4) << std::endl;
-	std::cout << (bN2^bN4) << std::endl;
+//	std::cout << (bN2^bN4) << std::endl;
+	std::cout << bN2.factorial() << std::endl;
 	/* passed shift test
 	 *std::cout << bN2 << std::endl;
 	 *bN2.shiftL();

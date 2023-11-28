@@ -288,10 +288,12 @@ bool operator == (const bigNumber& bN1, const bigNumber& bN2)
 {
 	if((!bN1.isNegative && bN2.isNegative) || (bN1.isNegative && !bN2.isNegative))
 		return false;
-	if(bN1.numOfDigits > bN2.numOfDigits)
+	if(bN1.numOfDigits > bN2.numOfDigits){
 		return false;
-	if(bN1.numOfDigits < bN2.numOfDigits)
+	}
+	if(bN1.numOfDigits < bN2.numOfDigits){
 		return false;
+	}
 	else{
 		for(int i = 0; i < bN1.numOfDigits; ++i)
 		{
@@ -329,10 +331,12 @@ bigNumber operator +( const bigNumber& bN1, const bigNumber& bN2 )
 		temp = bN2 - temp;
 		return temp;
 	}
-	if(bN1.isNegative && bN2.isNegative)
+	if(bN1.isNegative && bN2.isNegative){
 		temp.isNegative = 1;
-	else if(!bN1.isNegative && !bN2.isNegative)
+	}
+	else if(!bN1.isNegative && !bN2.isNegative){
 		temp.isNegative = 0;
+	}
 	if(bN1.numOfDigits >= bN2.numOfDigits)
 	{
 		// max 10  min 6
@@ -342,10 +346,13 @@ bigNumber operator +( const bigNumber& bN1, const bigNumber& bN2 )
 		// 99999 + 1234 = 101233
 		tempBN.numOfDigits = max;
 		tempBN.digits = new uint8_t[tempBN.numOfDigits];
-		for(int k = 1; k <= min; ++k)
+		memset(tempBN.digits, 0, tempBN.numOfDigits);
+		for(int k = 1; k <= min; ++k){
 			tempBN.digits[max - k] = (int)(bN2.digits[min - k]);
-		for(int k = min + 1; k < max; ++k)
+		}
+		for(int k = min + 1; k < max; ++k){
 			tempBN.digits[max - k] = 0;
+		}
 	}
 	else if ( bN2.numOfDigits > bN1.numOfDigits )
 	{
@@ -396,11 +403,12 @@ bigNumber operator +( const bigNumber& bN1, const bigNumber& bN2 )
 	//		break;
 	//	}
 
-		if(bN1.numOfDigits >= bN2.numOfDigits)
+		if(bN1.numOfDigits >= bN2.numOfDigits){
 			m = bN1.digits[tempBN.numOfDigits - i] + tempBN.digits[tempBN.numOfDigits - i] + carry;
-		if(bN2.numOfDigits > bN1.numOfDigits)
+		}
+		if(bN2.numOfDigits > bN1.numOfDigits){
 			m = tempBN.digits[tempBN.numOfDigits - i] + bN2.digits[tempBN.numOfDigits - i] + carry;
-
+		}
 		temp.digits[temp.numOfDigits - i] = m%10;
 		carry = m/10;
 		++i;
@@ -412,6 +420,7 @@ bigNumber operator +( const bigNumber& bN1, const bigNumber& bN2 )
 		++i;
 	}
 	//temp.deleteLeftZero();
+	//std::cout << temp << std::endl;
 	return temp;
 }
 
@@ -650,30 +659,25 @@ bigNumber operator /( const bigNumber& bN1, const bigNumber& bN2 ){;}
 
 bigNumber operator ^( const bigNumber& bN1, const bigNumber& bN2 )
 {
-	bigNumber temp1;
+	bigNumber temp1(1);
 	bigNumber temp2;
 	temp2 = bN1;
-	++temp1;
 	while(temp1 != bN2){
-		std::cout << temp1 << std::endl;
-	//	temp2 = bN1 * temp2;
-		++temp1;
-	}
-	if(temp1 == bN2){
-		++temp1;
-		std::cout << "reacjed" << std::endl;
+		temp2 = bN1 * temp2;
+	    ++temp1;
 	}
 	return temp2;
 }
 
-// bitwise shift
-//bigNumber bigNumber::operator <<( int n ){;}
-
-//bigNumber bigNumber::operator >>( int n ){;}
-
 // factorial
-bigNumber bigNumber::factorial(){;}
+bigNumber bigNumber::factorial()
+{
+	bigNumber fact(1);
+	for(bigNumber i(1); i < *this || i == *this; ++i)
+		fact = fact * i;
+
+	return fact;
+}
 
 
-// add delete_left_zeroes method
 // 
