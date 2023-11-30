@@ -25,7 +25,7 @@ int main()
 	bN2 = bN1--;
 	bN4 = --bN3;
 	std::cout << "bN2 = bN1-- bN2: " << bN2 << "    bN1: " << bN1 << "    bN4 = --bN3 bN4: " << bN4 << "    bN3: " << bN3 << std::endl;
-	
+
 	// input stream test
 	std::cout << "bN2: ";
 	std::cin >> bN2;
@@ -63,6 +63,16 @@ int main()
 	std::cout << "bN2 * bN4: " << bN2 * bN4 << std::endl;
 	std::cout << "bN4 * bN2: " << bN4 * bN2 << std::endl;
 
+	// division test
+	try
+	{
+	std::cout << "bN2 / bN4: " << bN2/bN4 << std::endl;
+	}
+	catch ( char const* errorMessage )
+	{
+		std::cerr << errorMessage << std::endl;
+	}
+
 	// power test
 	try
 	{
@@ -83,6 +93,7 @@ int main()
 	{
 		std::cerr << errorMessage << std::endl;
 	}
-	
+
+	delete [] array;
 	return 0;
 }

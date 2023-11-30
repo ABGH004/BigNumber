@@ -1,6 +1,6 @@
 #include "bigNumber.hpp"
 #include <cstring>
-
+#include <vector>
 // default constructor
 bigNumber::bigNumber()
 {
@@ -123,6 +123,7 @@ bigNumber bigNumber::shiftL()
 {
 	return shiftL(1);
 }
+
 bigNumber bigNumber::shiftL( int n )
 {
 	bigNumber temp = *this;
@@ -137,10 +138,12 @@ bigNumber bigNumber::shiftL( int n )
 	return *this;
 	
 }
+
 bigNumber bigNumber::shiftR()
 {
 	return shiftR(1);
 }
+
 bigNumber bigNumber::shiftR( int n )
 {
 	bigNumber temp = *this;
@@ -176,29 +179,7 @@ std::istream& operator >>( std::istream& input, bigNumber& bN )
 {	
 	std::string num;
 	input >> num;
-	
-	if ( num[0] == '-' )
-	{	
-		bN.numOfDigits = num.size() - 1;
-		bN.digits = new uint8_t[bN.numOfDigits];
-		bN.isNegative = 1;
-	
-		for(size_t i = 0; i < bN.numOfDigits; ++i)
-			bN.digits[i] = (num[i + 1]-'0');
-	
-	}
-	
-	else{
-		
-		bN.numOfDigits = num.size();
-		bN.digits = new uint8_t[bN.numOfDigits];
-		bN.isNegative = 0;
-		
-		for(size_t i = 0; i < bN.numOfDigits; ++i)
-			bN.digits[i] = (num[i]-'0');
-	
-	}
-
+	bN = bigNumber(num);
 	return input;
 }
 
@@ -210,7 +191,7 @@ bigNumber& bigNumber::operator ++()
 	
 }
 
-bigNumber bigNumber::operator ++(int dummy)
+bigNumber bigNumber::operator ++( int dummy )
 {
 	bigNumber temp = *this;
 	*this = (*this) + 1;
@@ -223,7 +204,7 @@ bigNumber& bigNumber::operator --()
 	return *this;
 }
 
-bigNumber bigNumber::operator --(int dummy)
+bigNumber bigNumber::operator --( int dummy )
 {
 	bigNumber temp = *this;
 	*this = (*this) - 1;
@@ -231,9 +212,9 @@ bigNumber bigNumber::operator --(int dummy)
 }
 
 // comparison
-bool operator > (const bigNumber& bN1, const bigNumber& bN2)
+bool operator > ( const bigNumber& bN1, const bigNumber& bN2 )
 {
-	if(bN1.isNegative && !bN2.isNegative)
+	if( bN1.isNegative && !bN2.isNegative )
 		return false;
 	
 	else if ( !bN1.isNegative && bN2.isNegative )
@@ -248,14 +229,14 @@ bool operator > (const bigNumber& bN1, const bigNumber& bN2)
 		return temp1 < temp2;
 	}
 	
-	if(bN1.numOfDigits > bN2.numOfDigits)
+	if( bN1.numOfDigits > bN2.numOfDigits )
 		return true;
 	
-	else if(bN1.numOfDigits < bN2.numOfDigits)
+	else if( bN1.numOfDigits < bN2.numOfDigits )
 		return false;
 	
-	else{
-	
+	else
+	{
 		for(size_t i = 0; i < bN1.numOfDigits; ++i)
 		{
 			if( bN1.digits[i] > bN2.digits[i] )
@@ -269,9 +250,9 @@ bool operator > (const bigNumber& bN1, const bigNumber& bN2)
 	}
 }
 
-bool operator < (const bigNumber& bN1, const bigNumber& bN2)
+bool operator < ( const bigNumber& bN1, const bigNumber& bN2 )
 {
-	if(bN1.isNegative && !bN2.isNegative)
+	if( bN1.isNegative && !bN2.isNegative )
 		return true;
 	
 	else if ( !bN1.isNegative && bN2.isNegative )
@@ -286,42 +267,42 @@ bool operator < (const bigNumber& bN1, const bigNumber& bN2)
 		return temp1 > temp2;
 	}
 	
-	if(bN1.numOfDigits > bN2.numOfDigits)
+	if( bN1.numOfDigits > bN2.numOfDigits )
 		return false;
 	
-	if(bN1.numOfDigits < bN2.numOfDigits)
+	if( bN1.numOfDigits < bN2.numOfDigits )
 		return true;
 	
-	else{
-	
-		for(int i = 0; i < bN1.numOfDigits; ++i)
+	else
+	{
+		for(size_t i = 0; i < bN1.numOfDigits; ++i)
 		{
 		
-			if(bN1.digits[i] > bN2.digits[i])
+			if( bN1.digits[i] > bN2.digits[i] )
 				return false;
 			
-			if(bN1.digits[i] < bN2.digits[i])
+			if( bN1.digits[i] < bN2.digits[i] )
 				return true;
 		}
 		// completely identical
 		return false;
 	}
 }
-bool operator == (const bigNumber& bN1, const bigNumber& bN2)
+bool operator == ( const bigNumber& bN1, const bigNumber& bN2 )
 {
-	if((!bN1.isNegative && bN2.isNegative) || (bN1.isNegative && !bN2.isNegative))
+	if( ( !bN1.isNegative && bN2.isNegative ) || ( bN1.isNegative && !bN2.isNegative ) )
 		return false;
 	
-	if(bN1.numOfDigits > bN2.numOfDigits)
+	if( bN1.numOfDigits > bN2.numOfDigits )
 		return false;
 
-	if(bN1.numOfDigits < bN2.numOfDigits)
+	if( bN1.numOfDigits < bN2.numOfDigits )
 		return false;
 	
-	else{
-		
+	else
+	{	
 		for(size_t i = 0; i < bN1.numOfDigits; ++i)
-			if(bN1.digits[i] != bN2.digits[i])
+			if( bN1.digits[i] != bN2.digits[i] )
 				return false;
 
 		// completely identical
@@ -329,7 +310,7 @@ bool operator == (const bigNumber& bN1, const bigNumber& bN2)
 	}
 }
 
-bool operator != (const bigNumber& bN1, const bigNumber& bN2)
+bool operator != ( const bigNumber& bN1, const bigNumber& bN2 )
 {
 	return !(bN1 == bN2);
 }
@@ -366,13 +347,12 @@ bigNumber operator +( const bigNumber& bN1, const bigNumber& bN2 )
 	if( bN1.isNegative && bN2.isNegative )
 		temp.isNegative = 1;
 	
-	else if(!bN1.isNegative && !bN2.isNegative)
+	else if( !bN1.isNegative && !bN2.isNegative )
 		temp.isNegative = 0;
 	
-	if(bN1.numOfDigits >= bN2.numOfDigits)
+	if( bN1.numOfDigits >= bN2.numOfDigits )
 	{
-
-		if(bN1.isNegative && !bN2.isNegative)
+		if( bN1.isNegative && !bN2.isNegative )
 			return bN2 - bN1;
 	
 		tempBN.numOfDigits = max;
@@ -380,7 +360,7 @@ bigNumber operator +( const bigNumber& bN1, const bigNumber& bN2 )
 		memset(tempBN.digits, 0, tempBN.numOfDigits);
 		
 		for(size_t k = 1; k <= min; ++k)
-			tempBN.digits[max - k] = (int)(bN2.digits[min - k]);
+			tempBN.digits[max - k] = bN2.digits[min - k];
 		
 		for(size_t k = min + 1; k < max; ++k)
 			tempBN.digits[max - k] = 0;
@@ -388,15 +368,17 @@ bigNumber operator +( const bigNumber& bN1, const bigNumber& bN2 )
 	}
 	else if ( bN2.numOfDigits > bN1.numOfDigits )
 	{
-		if(bN2.isNegative && !bN1.isNegative)
+		if( bN2.isNegative && !bN1.isNegative )
 			return bN1 - bN2;
 		
 		tempBN.numOfDigits = max;
 		tempBN.digits = new uint8_t[tempBN.numOfDigits];
 		memset(tempBN.digits, 0, tempBN.numOfDigits);
-		for(int k = 1; k <= min; ++k)
-			tempBN.digits[max - k] = (int)(bN1.digits[min - k]);
-		for(int k = min + 1; k < max; ++k)
+		
+		for(size_t k = 1; k <= min; ++k)
+			tempBN.digits[max - k] = bN1.digits[min - k];
+		
+		for(size_t k = min + 1; k < max; ++k)
 			tempBN.digits[max - k] = 0;
 
 	
@@ -452,21 +434,24 @@ bigNumber operator -( const bigNumber& bN1, const bigNumber& bN2 )
 		return temp;
 	}
 	
-	bigNumber temp;
+	
 	int max = std::max(bN1.numOfDigits, bN2.numOfDigits);
 	int min = std::min(bN1.numOfDigits, bN2.numOfDigits);
+
+	bigNumber temp;	
 	temp.numOfDigits = max;
 	temp.digits = new uint8_t[temp.numOfDigits];
 	memset(temp.digits, 0, temp.numOfDigits);
+	
 	int t = 0;
 	int8_t s;
 	
-	bigNumber tempBN1 = bN1;
-	bigNumber tempBN2 = bN2;
-	tempBN1.isNegative = 0;
-	tempBN2.isNegative = 0;
+	bigNumber absBN1 = bN1;
+	bigNumber absBN2 = bN2;
+	absBN1.isNegative = 0;
+	absBN2.isNegative = 0;
 	
-	if( tempBN1 > tempBN2 && !( bN1.isNegative && bN2.isNegative ) )
+	if( absBN1 > absBN2 && !( bN1.isNegative && bN2.isNegative ) )
 	{
 		temp.isNegative = 0;
 		for(size_t i = 1; i <= max; ++i)
@@ -488,7 +473,7 @@ bigNumber operator -( const bigNumber& bN1, const bigNumber& bN2 )
 		}
 	}
 
-	if( tempBN1 > tempBN2 && ( bN1.isNegative && bN2.isNegative ) )
+	if( absBN1 > absBN2 && ( bN1.isNegative && bN2.isNegative ) )
 	{
 		temp.isNegative = 1;
 		for(size_t i = 1; i <= max; ++i)
@@ -510,7 +495,7 @@ bigNumber operator -( const bigNumber& bN1, const bigNumber& bN2 )
 		}
 	}
 
-	if( tempBN1 < tempBN2 && !( bN1.isNegative && bN2.isNegative ) )
+	if( absBN1 < absBN2 && !( bN1.isNegative && bN2.isNegative ) )
 	{
 		temp.isNegative = 1;
 		for(size_t i = 1; i <= max; ++i)
@@ -532,7 +517,7 @@ bigNumber operator -( const bigNumber& bN1, const bigNumber& bN2 )
 		}
 	}
 
-	if( tempBN1 < tempBN2 && ( bN1.isNegative && bN2.isNegative ) )
+	if( absBN1 < absBN2 && ( bN1.isNegative && bN2.isNegative ) )
 	{ 
 		temp.isNegative = 0;
 		for(size_t i = 1; i <= max; ++i)
@@ -581,7 +566,7 @@ bigNumber operator *( const bigNumber& bN1, const bigNumber& bN2 )
 	if( isNull(bN1) || isNull(bN2) )
 		return 0;
 	
-	if( (bN1.isNegative && !bN2.isNegative) || (!bN1.isNegative && bN2.isNegative) )
+	if( ( bN1.isNegative && !bN2.isNegative ) || ( !bN1.isNegative && bN2.isNegative ) )
 		temp2.isNegative = 1;
 	else
 		temp2.isNegative = 0;
@@ -607,7 +592,7 @@ bigNumber operator *( const bigNumber& bN, int num)
 	temp.digits = new uint8_t[temp.numOfDigits];
 	memset(temp.digits, 0, temp.numOfDigits);
 	
-	if( (num < 0 && !bN.isNegative) || (num > 0 && bN.isNegative) )
+	if( ( num < 0 && !bN.isNegative ) || ( num > 0 && bN.isNegative ) )
 		temp.isNegative = 1;
 	else
 		temp.isNegative = 0;
@@ -633,7 +618,59 @@ bigNumber operator *( const bigNumber& bN, int num)
 //division
 bigNumber operator /( const bigNumber& bN1, const bigNumber& bN2 )
 {
-;
+	if( isNull(bN2) )
+		throw("Zero division is undefined!");
+	
+	bigNumber absBN1 = bN1;
+	absBN1.isNegative = 0;
+	bigNumber absBN2 = bN2;
+	absBN2.isNegative = 0;
+	
+	if( absBN2 > absBN1 )
+		return 0;
+	if( bN2 == bN1 )
+		return 1;
+	// when XOR of both numbers' isNegative is T
+	if( absBN1 == absBN2 )
+		return bigNumber(-1);
+	
+	
+	bigNumber quotient;
+	
+	if( ( !bN1.isNegative && bN2.isNegative ) || ( bN1.isNegative && !bN2.isNegative ) )
+		quotient.isNegative = 1;
+	else
+		quotient.isNegative = 0;
+  	
+	int index;
+	quotient.numOfDigits = 0;
+	int quotientDigit;
+    uint8_t* result = new uint8_t[bN1.numOfDigits];
+	memset(result, 0, bN1.numOfDigits);
+    bigNumber t;
+    
+	for(index = 0; t * 10 + absBN1.digits[index] < absBN2;index++)
+	{
+        t = t * 10;
+        t = t + absBN1.digits[index];
+    }
+    
+	for(; index < absBN1.numOfDigits; index++)
+	{
+        t = t * 10 + absBN1.digits[index];
+		for(quotientDigit = 9; quotientDigit * absBN2 > t;quotientDigit--);
+        t = t - (quotientDigit * absBN2);
+        result[quotient.numOfDigits++] = quotientDigit;
+    }
+	
+	quotient.digits = new uint8_t[quotient.numOfDigits];
+	
+	for(index = 0; index < quotient.numOfDigits;index++)
+        quotient.digits[index] = result[index];
+	
+	delete [] result;
+
+	return quotient;
 }
 
 //power
