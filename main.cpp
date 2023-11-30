@@ -8,8 +8,8 @@ int main()
 	
 	bigNumber bN2;
 	
-	uint8_t* array{new uint8_t[10]{1, 2, 3, 4, 5, 6, 7, 8, 9, 0}};
-	bigNumber bN3(array, 10);
+	uint8_t* array{new uint8_t[11]{'-', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}};
+	bigNumber bN3(array, 11);
 	
 	bigNumber bN4;
 	

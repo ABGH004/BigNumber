@@ -13,13 +13,25 @@ bigNumber::bigNumber()
 // constructors
 bigNumber::bigNumber( uint8_t* array, int len )
 {
-	numOfDigits = len;
-	digits = new uint8_t[numOfDigits];
-	isNegative = 0;
+	if( array[0] == '-' )
+	{
+		isNegative = 1;
+		numOfDigits = len - 1;
+		digits = new uint8_t[numOfDigits];
+		
+		for(size_t i = 0; i < numOfDigits; ++i)
+			digits[i] = array[i+1] - '0';
+	}
 
-	for(size_t i = 0; i < numOfDigits; ++i)
-		digits[i] = array[i];
+	else
+	{
+		isNegative = 0;
+		numOfDigits = len;
+		digits = new uint8_t[numOfDigits];
 
+		for(size_t i = 0; i < numOfDigits; ++i)
+			digits[i] = array[i] - '0';
+	}
 }
 
 bigNumber::bigNumber( std::string num )
@@ -678,12 +690,16 @@ bigNumber operator ^( const bigNumber& bN1, const bigNumber& bN2 )
 {
 	if( bN2.isNegative )
 		throw("Negative power not allowed!");
-	if( isNull(bN1) || isNull(bN2) )
+	if( isNull(bN1) && isNull(bN2) )
 	{
-		if( bN1 == bN2 )
-			throw("Zero powered to zero is undefined!");
-		return 0;
+		throw("Zero powered to zero is undefined!");
 	}
+	
+	if( isNull(bN1) )
+		return 0;
+	
+	if( isNull(bN2) )
+		return 1;
 
 	bigNumber temp1(1);
 	bigNumber temp2;

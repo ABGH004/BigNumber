@@ -26,7 +26,7 @@ class bigNumber
 		bigNumber& operator =( const bigNumber& );
 	
 		// check whether its zero
-		friend bool isNull(const bigNumber&);
+		friend bool isNull( const bigNumber& );
 		
 		//shift
 		bigNumber shiftL();
@@ -45,10 +45,10 @@ class bigNumber
 		bigNumber operator --( int );
 		
 		// comparison
-		friend bool operator > (const bigNumber&, const bigNumber&);
-		friend bool operator < (const bigNumber&, const bigNumber&);
-		friend bool operator == (const bigNumber&, const bigNumber&);
-		friend bool operator != (const bigNumber&, const bigNumber&);
+		friend bool operator > ( const bigNumber&, const bigNumber& );
+		friend bool operator < ( const bigNumber&, const bigNumber& );
+		friend bool operator == ( const bigNumber&, const bigNumber& );
+		friend bool operator != ( const bigNumber&, const bigNumber& );
 
 		// basic arithmatic
 		friend bigNumber operator +( const bigNumber&, const bigNumber& );
@@ -77,9 +77,11 @@ class bigNumber
 		{
 			uint8_t* tempArr;
 			int i;
+
 			for(i = 0; i < numOfDigits; ++i)
-				if(digits[i] != 0)
+				if( digits[i] != 0 )
 					break;
+			
 			numOfDigits-= i;
 			tempArr = new uint8_t[numOfDigits];
 			
