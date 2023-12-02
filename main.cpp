@@ -14,7 +14,7 @@ int main()
 	bigNumber bN4;
 	
 	bigNumber bN5(-8229);
-
+	
 	// output stream test
 	std::cout << "bN1: " << bN1 << "    bN2: " << bN2 << "    bN3: " << bN3 << "    bN4: " << bN4 << "    bN5: " << bN5 << std::endl;
 	

@@ -138,6 +138,8 @@ bigNumber bigNumber::shiftL()
 
 bigNumber bigNumber::shiftL( int n )
 {
+	if(n == 0)
+		return *this;
 	bigNumber temp = *this;
 	numOfDigits += n;
 	delete []digits;
@@ -158,6 +160,8 @@ bigNumber bigNumber::shiftR()
 
 bigNumber bigNumber::shiftR( int n )
 {
+	if(n == 0)
+		return *this;
 	bigNumber temp = *this;
 	numOfDigits -= n;
 	delete []digits;
@@ -688,6 +692,7 @@ bigNumber operator /( const bigNumber& bN1, const bigNumber& bN2 )
 //power
 bigNumber operator ^( const bigNumber& bN1, const bigNumber& bN2 )
 {
+	
 	if( bN2.isNegative )
 		throw("Negative power not allowed!");
 	if( isNull(bN1) && isNull(bN2) )
@@ -702,13 +707,18 @@ bigNumber operator ^( const bigNumber& bN1, const bigNumber& bN2 )
 		return 1;
 
 	bigNumber temp1(1);
-	bigNumber temp2;
-	temp2 = bN1;
-	while( temp1 != bN2 ){
-		temp2 = bN1 * temp2;
-	    ++temp1;
+	
+	bigNumber Exponent, Base;
+	Base = bN1;
+    Exponent = bN2;
+    while(!isNull(Exponent)){
+    	if(Exponent.digits[Exponent.numOfDigits - 1] & 1)
+        	temp1 = temp1 * Base;
+        Base = Base * Base;
+		Exponent = Exponent / 2;
 	}
-	return temp2;
+	
+	return temp1;
 }
 
 // factorial
@@ -721,7 +731,7 @@ bigNumber bigNumber::factorial()
 	
 	bigNumber fact(1);
 	
-	for(bigNumber i(1); i < *this || i == *this; ++i)
+	for(bigNumber i(2); i < *this || i == *this; ++i)
 		fact = fact * i;
 
 	return fact;
